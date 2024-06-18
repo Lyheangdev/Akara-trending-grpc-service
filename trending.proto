@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+message EmptyResponse {}
+message EmptyRequest {}
+
+enum STATUS {
+    EXIST=0;
+    OK=1;
+    NOTFOUND=2;
+    NON_EXIST=3;
+    ERROR=4;
+}
+
+message Trending {
+    string _id =1;
+    int32 count = 2;
+}
+
+message TrendingRequest {
+    optional string trending_id =1;
+    string podcast_id =2;
+}
+
+message TrendingReponse {
+    bool error = 1;
+    string message =2;
+    STATUS status = 3;
+}
+
+message TrendingResponses {
+    bool error=1;
+    string mesage=2;
+    STATUS status=3;
+    repeated Trending data =4;
+}
+
+service TrendingService {
+    rpc RetrieveAllHourlyTrending (EmptyRequest) returns (TrendingResponses) {}
+    rpc RetrieveAllDailyTrending (EmptyRequest) returns (TrendingResponses) {}
+    rpc RetrieveAllWeeklyTrending (EmptyRequest) returns (TrendingResponses) {}
+
+    rpc AddHourlyTrending (TrendingRequest) returns (TrendingReponse) {}
+    rpc AddDailyTrending (TrendingRequest) returns (TrendingReponse) {}
+    rpc AddWeeklyTrending (TrendingRequest) returns (TrendingReponse) {}
+
+    rpc StartHourlyTrending (EmptyRequest) returns (TrendingReponse) {}
+    rpc StartDailyTrending (EmptyRequest) returns (TrendingReponse) {}
+    rpc StartWeeklyTrending (EmptyRequest) returns (TrendingReponse) {}
+}
+
+
+
+
